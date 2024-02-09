@@ -183,10 +183,12 @@ def load_model(
     revision: str = "main",
     debug: bool = False,
 ):
-    cfg = WandbConfigSingleton.get_instance().config
     """Load a model from Hugging Face."""
+    cfg = WandbConfigSingleton.get_instance().config
     # get model adapter
     adapter = get_model_adapter(model_path)
+    adapter_name = type(adapter).__name__
+    print(f"Using {adapter_name}...")
 
     # Handle device mapping
     cpu_offloading = raise_warning_for_incompatible_cpu_offloading_configuration(
