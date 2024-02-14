@@ -95,6 +95,8 @@ def get_model_answers(
         debug=False,
     )
 
+    conv = get_conversation_template(model_id)
+    print(f"Using conversation template to generate questions: {conv.name}")
     for question in tqdm(questions):
         if question["category"] in temperature_config:
             temperature = temperature_config[question["category"]]
@@ -104,8 +106,6 @@ def get_model_answers(
         choices = []
         for i in range(num_choices):
             torch.manual_seed(i)
-            conv = get_conversation_template(model_id)
-            print(f"Using conversation template to generate questions: {conv.name}")
             turns = []
             for j in range(len(question["turns"])):
                 qs = question["turns"][j]
