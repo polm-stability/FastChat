@@ -97,6 +97,15 @@ def get_model_answers(
 
     conv = get_conversation_template(model_id)
     print(f"Using conversation template to generate questions: {conv.name}")
+
+    os.makedirs(os.path.dirname(answer_file), exist_ok=True)
+    answer_file = os.path.expanduser(answer_file)
+    try:
+        os.remove(answer_file)
+    except FileNotFoundError:
+        # it's fine if it doesn't exist
+        pass
+
     for question in tqdm(questions):
         if question["category"] in temperature_config:
             temperature = temperature_config[question["category"]]
